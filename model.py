@@ -16,8 +16,10 @@ from keras.layers.pooling import MaxPooling2D
 
 LOG_PATH = 'data/driving_log.csv'
 IMAGE_PATH = 'data/IMG'
-STEERING_CORRECTION = 0.2
-EPOCHS = 7
+STEERING_CORRECTION = 0.15
+TEST_SIZE = 0.1
+BATCH_SIZE = 32
+EPOCHS = 20
 
 def generator(data, batch_size=32):
     n_data = len(data)
@@ -50,12 +52,13 @@ def generator(data, batch_size=32):
 lines = []
 with open(LOG_PATH) as csvfile:
     reader = csv.reader(csvfile)
-    for line in reader:
-        lines.append(line)
+    for i, line in enumerate(reader):
+        if(i != 0):
+            lines.append(line)
             
-train_data, validation_data = train_test_split(lines, test_size=0.2)
-train_generator = generator(train_data, batch_size=32)
-validation_generator = generator(validation_data, batch_size=32)
+train_data, validation_data = train_test_split(lines, test_size=TEST_SIZE)
+train_generator = generator(train_data, batch_size=BATCH_SIZE)
+validation_generator = generator(validation_data, batch_size=BATCH_SIZE)
     
 model = Sequential()
 model.add(Lambda(lambda x: x / 255.0 - 0.5, input_shape=(160,320,3)))
@@ -68,6 +71,7 @@ model.add(Convolution2D(64, 3, 3, activation='relu'))
 model.add(Flatten())
 model.add(Dense(100))
 model.add(Dense(50))
+model.add(Dense(25))
 model.add(Dense(10))
 model.add(Dense(1))
 model.compile(loss='mse', optimizer='adam')
@@ -77,10 +81,12 @@ metrics = model.fit_generator(train_generator, samples_per_epoch=len(train_data)
 model.save('model.h5')
 
 print(metrics.history.keys())
+fig = plt.figure()
 plt.plot(metrics.history['loss'])
 plt.plot(metrics.history['val_loss'])
 plt.title('model mean squared error loss')
 plt.ylabel('mean squared error loss')
 plt.xlabel('epoch')
 plt.legend(['training set', 'validation set'], loc='upper right')
+fig.savefig('./loss.png')
 plt.show()
