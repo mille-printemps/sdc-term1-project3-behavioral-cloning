@@ -17,7 +17,7 @@ from keras.layers.pooling import MaxPooling2D
 LOG_PATH = 'data/driving_log.csv'
 IMAGE_PATH = 'data/IMG'
 STEERING_CORRECTION = 0.15
-TEST_SIZE = 0.1
+TEST_SIZE = 0.2
 BATCH_SIZE = 32
 EPOCHS = 20
 
