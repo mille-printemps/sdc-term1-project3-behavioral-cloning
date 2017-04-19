@@ -12,17 +12,23 @@ The goals / steps of this project are the following:
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
 
-
 [//]: # (Image References)
-
 
 [image1]: ./images/model_summary.png =650x450 "Model Visualization"
 [image2]: ./images/loss.png =650x450 "Loss"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
+[image3]: ./images/center_lane_driving.jpg =200x100 "Center Lane Driving Image"
+[image4]: ./images/curve_driving_1.jpg =200x100 "Curve Driving Image"
+[image5]: ./images/curve_driving_2.jpg =200x100 "Curve Driving Image"
+[image6]: ./images/curve_driving_3.jpg =200x100 "Curve Driving Image"
+[image7]: ./images/curve_driving_4.jpg =200x100 "Curve Driving Image"
+[image8]: ./images/recovery_from_right_1.jpg =200x100 "Recovery Image"
+[image9]: ./images/recovery_from_right_2.jpg =200x100 "Recovery Image"
+[image10]: ./images/recovery_from_right_3.jpg =200x100 "Recovery Image"
+[image11]: ./images/recovery_from_left_1.jpg =200x100 "Recovery Image"
+[image12]: ./images/recovery_from_left_2.jpg =200x100 "Recovery Image"
+[image13]: ./images/recovery_from_left_2.jpg =200x100 "Recovery Image"
+[image14]: ./images/clockwise_driving.jpg =200x100 "Clockwise Driving Image"
+
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -112,19 +118,19 @@ After Step 1, the pair of Step 2 and Step 3, or the pair of Step 3 and Step 4 wa
 
 Here is the process I took to define the final model architecture. 
 
-1. Collected training data of center lane driving x 3, curve driving x the number of curves, constant wandering driving x 1
+1. Collected training data of `center lane driving x 3`, `curve driving x the number of curves`, `constant wandering driving x 1`
 2. Tested the training data and found that the car got stuck at the side of the road. 
-3. Collected training data of center lane driving x 3, curve driving x the number of curves, recovering from the left and right sides around the curves x the number of curves in order to exclude steering data to go to the side of the road.
+3. Collected training data of `center lane driving x 3`, `curve driving x the number of curves`, `recovering from the left and right sides around the curves x the number of curves` in order to exclude steering data to go to the side of the road.
 4. Tested the training data and found that the car went out from the road from curves. 
-5. Collected training data center lane driving x 3, curve driving x the number of curves, recovering from the left and right sides around the curves x the number of curves x 2 in order to increase steering data to recover from the side of the road
+5. Collected training data of `center lane driving x 3`, `curve driving x the number of curves`, `recovering from the left and right sides around the curves x the number of curves x 2` in order to increase steering data to recover from the side of the road
 6. Tested the training data and found that the car still went out from the road at curves.
 7. Supposed that enough training data was collected, then attempted to modify the model architecture. Added a dropout layer after each convolution layer or fully connected layer and increased the batch size and the number of epochs because the behavior of the training became probabilistic. 
 8. Tested the same training data several times while changing the place to insert a dropout layer and modifying the batch size and the number of epochs and found that the result did not get any better. 
 9. Gave up to add the dropout layer, then attempted to get better training result by making the model architecutre more complex. Both of the losses of training data and validation data were low, so it was supposed that overfitting was not occurring. Then, decided to add a fully connected layer to make the model architecture more complex a bit. 
-10. Tested the training data and found that the car still went out from the road at curves. Got stuck here for a long time. 
-11. Modified the steering correction at the range of 0.1 to 0.3.
-12. Tested the same training data with the steering correction 0.15 and found that the test managed to go well finally. 
-13. Collected training data center lane driving x 2, curve driving x the number of curves, recovering from the left and right sides around the curves x the number of curves x 2 and clockwise center lane drving x 1 in order to get a better test result. 
+10. Tested the training data and found that the car still went out from the road at curves. **Got stuck here for a long time**. 
+11. Modified the steering correction at the range of `0.1` to `0.3`.
+12. Tested the same training data with the steering correction `0.15` and found that **the test managed to go well finally**. 
+13. Collected training data of `center lane driving x 2`, `curve driving x the number of curves`, `recovering from the left and right sides around the curves x the number of curves x 2` and `clockwise center lane drving x 1` in order to get a better test result. 
 14. Tested the training data and found that the test went well a little bit better. Stopped training and testing here. 
 
 ####2. Final Model Architecture
@@ -139,28 +145,39 @@ Here is a graph that shows the losses of the training and validation data for ea
 
 ####3. Creation of the Training Set & Training Process
 
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
+As explained earlier, different types of driving were recorded to keep the driving stable and avoid going out from the road. 
 
-![alt text][image2]
-
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
+1. Center lane driving image
 
 ![alt text][image3]
+
+2. Curve driving images
+
 ![alt text][image4]
 ![alt text][image5]
-
-Then I repeated this process on track two in order to get more data points.
-
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
-
 ![alt text][image6]
 ![alt text][image7]
 
-Etc ....
+3. Recovery from right images
 
-After the collection process, I had X number of data points. I then preprocessed this data by ...
+![alt text][image8]
+![alt text][image9]
+![alt text][image10]
 
+4. Recovery from left images
 
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
+![alt text][image11]
+![alt text][image12]
+![alt text][image13]
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+5. Clockwise driving image
+
+![alt text][image14]
+
+To augment the data, flipped images and angles were added programmatically. After the collection process, `10030 x 2` number (physical images + programmatically flipped images) of data points were collected. 
+
+The data were randomly shuffled and separated into training and validation data to see if the model was over or under fitting. `20`% of the over all data was used as validation data. 
+
+[Adam optimizer](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L353) was used as a training method. The default settings of the parameters were used. 
+
+The number of epochs was `20`. As shown in the graph above, the losses of the training and validation data were sufficiently low though the loss of the validation data fluctuated. 
