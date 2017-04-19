@@ -86,6 +86,7 @@ model.add(Dense(25))
 model.add(Dense(10))
 model.add(Dense(1))
 model.compile(loss='mse', optimizer='adam')
+model.summary()
 
 # Training and validation
 metrics = model.fit_generator(train_generator, samples_per_epoch=len(train_data),\
