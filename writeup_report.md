@@ -12,7 +12,9 @@ The goals / steps of this project are the following:
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
 
+
 [//]: # (Image References)
+
 
 [image1]: ./images/model_summary.png =650x450 "Model Visualization"
 [image2]: ./images/loss.png =650x450 "Loss"
@@ -24,10 +26,12 @@ The goals / steps of this project are the following:
 [image8]: ./images/recovery_from_right_1.jpg =200x100 "Recovery Image"
 [image9]: ./images/recovery_from_right_2.jpg =200x100 "Recovery Image"
 [image10]: ./images/recovery_from_right_3.jpg =200x100 "Recovery Image"
-[image11]: ./images/recovery_from_left_1.jpg =200x100 "Recovery Image"
-[image12]: ./images/recovery_from_left_2.jpg =200x100 "Recovery Image"
+[image11]: ./images/recovery_from_right_4.jpg =200x100 "Recovery Image"
+[image12]: ./images/recovery_from_left_1.jpg =200x100 "Recovery Image"
 [image13]: ./images/recovery_from_left_2.jpg =200x100 "Recovery Image"
-[image14]: ./images/clockwise_driving.jpg =200x100 "Clockwise Driving Image"
+[image14]: ./images/recovery_from_left_3.jpg =200x100 "Recovery Image"
+[image15]: ./images/recovery_from_left_4.jpg =200x100 "Recovery Image"
+[image16]: ./images/clockwise_driving.jpg =200x100 "Clockwise Driving Image"
 
 
 ## Rubric Points
@@ -61,7 +65,7 @@ The `model.py` file contains the code for training and saving the convolution ne
 
 ####1. An appropriate model architecture has been employed
 
-At the beginning of the model, the data is normalized using a Keras lambda layer and is also cropped to get rid of unnecessary backgroud images. (The model starts at the comment saying 'Model' in `model.py`) 
+At the beginning of the model, the data is normalized using a Keras lambda layer and is also cropped to get rid of unnecessary background images. (The model starts at the comment saying 'Model' in `model.py`) 
 
 The model is based on NVIDIA architecture which consists of a convolution neural network with `3x3` filter and `5x5` sizes and depths between `24` and `64`. The model includes RELU layers to introduce nonlinearity after each convolution layer. The only difference is an extra fully connected layer where the number of the neurons is `25`. 
 
@@ -126,7 +130,7 @@ Here is the process I took to define the final model architecture.
 6. Tested the training data and found that the car still went out from the road at curves.
 7. Supposed that enough training data was collected, then attempted to modify the model architecture. Added a dropout layer after each convolution layer or fully connected layer and increased the batch size and the number of epochs because the behavior of the training became probabilistic. 
 8. Tested the same training data several times while changing the place to insert a dropout layer and modifying the batch size and the number of epochs and found that the result did not get any better. 
-9. Gave up to add the dropout layer, then attempted to get better training result by making the model architecutre more complex. Both of the losses of training data and validation data were low, so it was supposed that overfitting was not occurring. Then, decided to add a fully connected layer to make the model architecture more complex a bit. 
+9. Gave up to add the dropout layer, then attempted to get better training result by making the model architecture more complex. Both of the losses of training data and validation data were low, so it was supposed that overfitting was not occurring. Then, decided to add a fully connected layer to make the model architecture more complex a bit. 
 10. Tested the training data and found that the car still went out from the road at curves. **Got stuck here for a long time**. 
 11. Modified the steering correction at the range of `0.1` to `0.3`.
 12. Tested the same training data with the steering correction `0.15` and found that **the test managed to go well finally**. 
@@ -147,32 +151,34 @@ Here is a graph that shows the losses of the training and validation data for ea
 
 As explained earlier, different types of driving were recorded to keep the driving stable and avoid going out from the road. 
 
-1. Center lane driving image
+* Center-lane-driving image
 
 ![alt text][image3]
 
-2. Curve driving images
+* Curve-driving images
 
 ![alt text][image4]
 ![alt text][image5]
 ![alt text][image6]
 ![alt text][image7]
 
-3. Recovery from right images
+* Recovery-from-right-at-curve images (UL=>UR=>LL=>LR)
 
 ![alt text][image8]
 ![alt text][image9]
 ![alt text][image10]
-
-4. Recovery from left images
-
 ![alt text][image11]
+
+* Recovery-from-left-at-curve images (UL=>UR=>LL=>LR)
+
 ![alt text][image12]
 ![alt text][image13]
-
-5. Clockwise driving image
-
 ![alt text][image14]
+![alt text][image15]
+
+* Clockwise-driving image
+
+![alt text][image16]
 
 To augment the data, flipped images and angles were added programmatically. After the collection process, `10030 x 2` number (physical images + programmatically flipped images) of data points were collected. 
 
@@ -180,4 +186,4 @@ The data were randomly shuffled and separated into training and validation data 
 
 [Adam optimizer](https://github.com/fchollet/keras/blob/master/keras/optimizers.py#L353) was used as a training method. The default settings of the parameters were used. 
 
-The number of epochs was `20`. As shown in the graph above, the losses of the training and validation data were sufficiently low though the loss of the validation data fluctuated. 
+The final number of epochs was `20`. As shown in the graph above, the losses of the training and validation data were sufficiently low though the loss of the validation data fluctuated. 
