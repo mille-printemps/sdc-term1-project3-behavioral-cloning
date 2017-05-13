@@ -1,4 +1,4 @@
-#**Behavioral Cloning** 
+# **Behavioral Cloning** 
 
 ---
 
@@ -16,31 +16,31 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 
-[image1]: ./images/model_summary.png =650x450 "Model Visualization"
-[image2]: ./images/loss.png =650x450 "Loss"
-[image3]: ./images/center_lane_driving.jpg =200x100 "Center Lane Driving Image"
-[image4]: ./images/curve_driving_1.jpg =200x100 "Curve Driving Image"
-[image5]: ./images/curve_driving_2.jpg =200x100 "Curve Driving Image"
-[image6]: ./images/curve_driving_3.jpg =200x100 "Curve Driving Image"
-[image7]: ./images/curve_driving_4.jpg =200x100 "Curve Driving Image"
-[image8]: ./images/recovery_from_right_1.jpg =200x100 "Recovery Image"
-[image9]: ./images/recovery_from_right_2.jpg =200x100 "Recovery Image"
-[image10]: ./images/recovery_from_right_3.jpg =200x100 "Recovery Image"
-[image11]: ./images/recovery_from_right_4.jpg =200x100 "Recovery Image"
-[image12]: ./images/recovery_from_left_1.jpg =200x100 "Recovery Image"
-[image13]: ./images/recovery_from_left_2.jpg =200x100 "Recovery Image"
-[image14]: ./images/recovery_from_left_3.jpg =200x100 "Recovery Image"
-[image15]: ./images/recovery_from_left_4.jpg =200x100 "Recovery Image"
-[image16]: ./images/clockwise_driving.jpg =200x100 "Clockwise Driving Image"
+[image1]: ./images/model_summary.png "Model Visualization"
+[image2]: ./images/loss.png "Loss"
+[image3]: ./images/center_lane_driving.jpg "Center Lane Driving Image"
+[image4]: ./images/curve_driving_1.jpg "Curve Driving Image"
+[image5]: ./images/curve_driving_2.jpg "Curve Driving Image"
+[image6]: ./images/curve_driving_3.jpg "Curve Driving Image"
+[image7]: ./images/curve_driving_4.jpg "Curve Driving Image"
+[image8]: ./images/recovery_from_right_1.jpg "Recovery Image"
+[image9]: ./images/recovery_from_right_2.jpg "Recovery Image"
+[image10]: ./images/recovery_from_right_3.jpg "Recovery Image"
+[image11]: ./images/recovery_from_right_4.jpg "Recovery Image"
+[image12]: ./images/recovery_from_left_1.jpg "Recovery Image"
+[image13]: ./images/recovery_from_left_2.jpg "Recovery Image"
+[image14]: ./images/recovery_from_left_3.jpg "Recovery Image"
+[image15]: ./images/recovery_from_left_4.jpg "Recovery Image"
+[image16]: ./images/clockwise_driving.jpg "Clockwise Driving Image"
 
 
 ## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
+### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
 ---
-###Files Submitted & Code Quality
+### Files Submitted & Code Quality
 
-####1. Submission includes all required files and can be used to run the simulator in autonomous mode
+#### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
 
 My project includes the following files:
 
@@ -50,27 +50,27 @@ My project includes the following files:
 * `video.mp4` containing a video where the car drives on track 1.
 * `writeup_report.md` summarizing the results.
 
-####2. Submission includes functional code
+#### 2. Submission includes functional code
 Using the Udacity provided simulator and `drive.py` file, the car can be driven autonomously around the track by executing 
 ```
 python drive.py model.h5
 ```
 
 
-####3. Submission code is usable and readable
+#### 3. Submission code is usable and readable
 
 The `model.py` file contains the code for training and saving the convolution neural network. The model is based on [NVIDIA architecture](https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/) with an extra fully connected layer. 
 
-###Model Architecture and Training Strategy
+### Model Architecture and Training Strategy
 
-####1. An appropriate model architecture has been employed
+#### 1. An appropriate model architecture has been employed
 
 At the beginning of the model, the data is normalized using a Keras lambda layer and is also cropped to get rid of unnecessary background images. (The model starts at the comment saying 'Model' in `model.py`) 
 
 The model is based on NVIDIA architecture which consists of a convolution neural network with `3x3` filter and `5x5` sizes and depths between `24` and `64`. The model includes RELU layers to introduce nonlinearity after each convolution layer. The only difference is an extra fully connected layer where the number of the neurons is `25`. 
 
 
-####2. Attempts to reduce overfitting in the model
+#### 2. Attempts to reduce overfitting in the model
 
 The model was trained and validated on different data sets to ensure that the model was not overfitting (The training and validation start at the comment saying 'Training and validation'). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
@@ -80,19 +80,19 @@ The model does not contain any dropout layers. The reasons of this decision are
 2. After several trial-and-errors, it turned out that the model based on NVIDIA architecture with dropout layers did not generate a better fit of the data than the model based on NVIDIA architecture. 
 3. The test results of the model based on NVIDIA architecture with dropout layers did not meet the specification, either. 
 
-####3. Model parameter tuning
+#### 3. Model parameter tuning
 
 The model used an adam optimizer. The default settings of the parameters such as the learning rate are used. 
 
-####4. Appropriate training data
+#### 4. Appropriate training data
 
 Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides around the curves, driving the curves. 
 
 For details about how I created the training data, see the next section. 
 
-###Model Architecture and Training Strategy
+### Model Architecture and Training Strategy
 
-####1. Solution Design Approach
+#### 1. Solution Design Approach
 
 The overall strategy for deriving a model architecture was iterative. 
 
@@ -137,48 +137,48 @@ Here is the process I took to define the final model architecture.
 13. Collected training data of `center lane driving x 2`, `curve driving x the number of curves`, `recovering from the left and right sides around the curves x the number of curves x 2` and `clockwise center lane drving x 1` in order to get a better test result. 
 14. Tested the training data and found that the test went well a little bit better. Stopped training and testing here. 
 
-####2. Final Model Architecture
+#### 2. Final Model Architecture
 
 The final model architecture is as below. The only difference from NVIDIA architecture is an extra fully connected layer where the number of the neurons is `25`. 
 
-![alt text][image1]
+![alt text][image1] <!-- .element height="450" width="650" --> 
 
 Here is a graph that shows the losses of the training and validation data for each epoch using the final model architecture. 
 
-![alt text][image2]
+![alt text][image2] <!-- .element height="450" width="650" -->
 
-####3. Creation of the Training Set & Training Process
+#### 3. Creation of the Training Set & Training Process
 
 As explained earlier, different types of driving were recorded to keep the driving stable and avoid going out from the road. 
 
 * Center-lane-driving image
 
-![alt text][image3]
+![alt text][image3] <!-- .element height="100" width="200" -->
 
 * Curve-driving images
 
-![alt text][image4]
-![alt text][image5]
-![alt text][image6]
-![alt text][image7]
+![alt text][image4] <!-- .element height="100" width="200" -->
+![alt text][image5] <!-- .element height="100" width="200" -->
+![alt text][image6] <!-- .element height="100" width="200" -->
+![alt text][image7] <!-- .element height="100" width="200" -->
 
 * Recovery-from-right-at-curve images (UL=>UR=>LL=>LR)
 
-![alt text][image8]
-![alt text][image9]
-![alt text][image10]
-![alt text][image11]
+![alt text][image8] <!-- .element height="100" width="200" -->
+![alt text][image9] <!-- .element height="100" width="200" -->
+![alt text][image10] <!-- .element height="100" width="200" -->
+![alt text][image11] <!-- .element height="100" width="200" -->
 
 * Recovery-from-left-at-curve images (UL=>UR=>LL=>LR)
 
-![alt text][image12]
-![alt text][image13]
-![alt text][image14]
-![alt text][image15]
+![alt text][image12] <!-- .element height="100" width="200" -->
+![alt text][image13] <!-- .element height="100" width="200" -->
+![alt text][image14] <!-- .element height="100" width="200" -->
+![alt text][image15] <!-- .element height="100" width="200" -->
 
 * Clockwise-driving image
 
-![alt text][image16]
+![alt text][image16] <!-- .element height="100" width="200" -->
 
 To augment the data, flipped images and angles were added programmatically. After the collection process, `10030 x 2` number (physical images + programmatically flipped images) of data points were collected. 
 
